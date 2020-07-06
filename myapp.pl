@@ -59,7 +59,9 @@ websocket '/socket' => sub {
 
     $self->on( message => sub { # Incoming websocket message
       my ($c, $msg) = @_;
-      $pubsub->notify( $c->session->{'channel'} => j { message => $msg, username => $c->session->{'username'}, dateTime => DateTime->now->iso8601 } ); ## Send to Redis in same structure as GraphQL
+      my $json = j { message => $msg, username => $c->session->{'username'}, dateTime => DateTime->now->iso8601,  channel =>  $c->session->{'channel'} };
+      warn $json;
+      $pubsub->notify( $c->session->{'channel'} => $json ); ## Send to Redis in same structure as GraphQL
       #$c->send({ json => { username => $c->session->{user}, message => $msg, dateTime => DateTime->now->iso8601 }}); ## also send to user through websocket
     });
     
