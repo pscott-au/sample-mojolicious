@@ -41,6 +41,16 @@ plugin GraphQL => {
   keepalive => 5,
 };
 
+<<<<<<< HEAD
+=======
+get '/chat' => sub {
+  my $c = shift;
+  $c->render(template => 'chat',
+    username => $c->param('username') || 'Demo-name',
+    channel  => $c->param('channel') || 'Demo-channel',
+  );
+};
+>>>>>>> a006caf6ea4c14f819fa1e0982d900f299f95bb2
 
 app->start;
 __DATA__
@@ -72,15 +82,22 @@ __DATA__
     <h2>Click to <%= link_to 'enter GraphiQL' => '/graphql' %>.</h2>
   </div>
   <div id="chat-content">
+<<<<<<< HEAD
   <h2>There is also a quick demonstration Chat App</h2>
   <ul>
     <li><a href="/chat?channel=starter&username=Larry">Open Channel 'starter' as User 'Larry' with GraphQL Endpoints</a></li>
+=======
+  <h2>There is also a demonstration chat app</h2>
+  <ul>
+    <li><a href="/chat?channel=starter&username=Larry">Open Channel 'starter' as User 'Larry' with GraphQL endpoints</a></li>
+>>>>>>> a006caf6ea4c14f819fa1e0982d900f299f95bb2
   </ul>
   </div>
 <div>
 </body>
 </html>
 
+<<<<<<< HEAD
 
 @@ chat.html.ep
 % title 'Perl-GraphQL demo Chat app';
@@ -89,6 +106,9 @@ __DATA__
 <head>
   <title><%= title %></title>
 <style>
+=======
+@@ chat.css
+>>>>>>> a006caf6ea4c14f819fa1e0982d900f299f95bb2
 /* From https://www.w3schools.com/howto/howto_css_chat.asp */
 /* Chat message containers */
 .chat-container {
@@ -157,13 +177,25 @@ html, body {
     width: 100%;
   }
 }
+<<<<<<< HEAD
 </style>
+=======
+
+@@ chat.html.ep
+% title 'Perl-GraphQL demo Chat app';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= title %></title>
+  <link href="chat.css" rel="stylesheet" type="text/css">
+>>>>>>> a006caf6ea4c14f819fa1e0982d900f299f95bb2
 </head>
 <body>
   <div id="page">
     <div id="content">
     <h1>Chat Demo '<%= $username %>' on channel '<%= $channel %>'</h1>
     <div class="row">
+<<<<<<< HEAD
       <div class="column" style="background-color:#aaa;">
         <p>You can send a message through GraphQL with curl</p>
 <code style="font-size: small;">
@@ -173,6 +205,11 @@ curl 'http://localhost:5000/graphql?' -H 'Accept: application/json' -H 'Content-
       <div class="column" id='chat-panel' style="background-color:#bbb; overflow: auto; max-height: 400px"><!-- start col2 -->
       </div><!-- end col2 -->
     </div><!-- end row -->
+=======
+      <div class="column" id='chat-panel' style="background-color:#bbb; overflow: auto; max-height: 400px">
+      </div>
+    </div>
+>>>>>>> a006caf6ea4c14f819fa1e0982d900f299f95bb2
     <div class="row">
       <div class="column"></div>
       <div class="column">
@@ -188,6 +225,7 @@ function send_message_graphql(msg) {
   fetch( '/graphql?', {
     "headers": {
       "accept": "application/json",
+<<<<<<< HEAD
       "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
       "content-type": "application/json",
       "sec-fetch-dest": "empty",
@@ -195,6 +233,10 @@ function send_message_graphql(msg) {
       "sec-fetch-site": "same-origin"
     },
     "referrerPolicy": "no-referrer-when-downgrade",
+=======
+      "content-type": "application/json",
+    },
+>>>>>>> a006caf6ea4c14f819fa1e0982d900f299f95bb2
     "body": '{"query":"mutation m {publish(input: { username: \\"' + username + '\\", message: \\"' + msg + '\\", channel: \\"' + channel + '\\"})}","variables":null,"operationName":"m"}',
     "method": "POST",
     "mode": "cors",
@@ -216,7 +258,11 @@ if ("WebSocket" in window) {
   ws = new WebSocket( new_uri );
   ws.onmessage = function (event) { // add incoming message and scroll chat-panel to bottom
    console.log('message received');
+<<<<<<< HEAD
    var chatPanel = document.getElementById("chat-panel"); 
+=======
+   var chatPanel = document.getElementById("chat-panel");
+>>>>>>> a006caf6ea4c14f819fa1e0982d900f299f95bb2
    try {
      var p_message_json = JSON.parse( event.data );
 
@@ -229,10 +275,17 @@ if ("WebSocket" in window) {
        { // Our message coming back through websocket
         chatPanel.innerHTML += '<div class="chat-container"><p>' +  message_json.message  + '</p><span class="time-right">' + local_time_string  + '</span></div>';
        }
+<<<<<<< HEAD
        else 
        { // Someone elses message coming in through websocket
         chatPanel.innerHTML += '<div class="chat-container darker"><span class="right">' + message_json.username +   ' says:</span><hr/><p>' +  message_json.message  + '</p><span class="time-left">' + local_time_string  + '</span></div>';
        }      
+=======
+       else
+       { // Someone elses message coming in through websocket
+        chatPanel.innerHTML += '<div class="chat-container darker"><span class="right">' + message_json.username +   ' says:</span><hr/><p>' +  message_json.message  + '</p><span class="time-left">' + local_time_string  + '</span></div>';
+       }
+>>>>>>> a006caf6ea4c14f819fa1e0982d900f299f95bb2
       chatPanel.scrollTop = chatPanel.scrollHeight;
      }
    } catch {
@@ -241,6 +294,7 @@ if ("WebSocket" in window) {
    // console.log(event);
  };
  ws.onclose = function() {   // websocket is closed.
+<<<<<<< HEAD
   alert("Connection is closed..."); 
  };
  ws.onopen = function (event) {
@@ -261,6 +315,12 @@ if ("WebSocket" in window) {
   "mode": "cors",
   "credentials": "omit"
   });
+=======
+  alert("Connection is closed...");
+ };
+ ws.onopen = function (event) {
+   ws.send( '{"type":"connection_init","payload":{}}' );
+>>>>>>> a006caf6ea4c14f819fa1e0982d900f299f95bb2
    ws.send( '{"id":"1","type":"start","payload":{"query":"subscription s {subscribe(channels: [\\"starter\\"]){message username dateTime}}","variables":null,"operationName":"s"}}' );
  };
 } else {
@@ -270,4 +330,8 @@ function send_message() { // called when button pressed
   send_message_graphql( document.getElementById("chat-text").value  );
 }
 </script>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> a006caf6ea4c14f819fa1e0982d900f299f95bb2
